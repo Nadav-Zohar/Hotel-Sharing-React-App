@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,32 +12,55 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
-        <Link color="inherit" href="https://mui.com/">
-            Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-        </Typography>
-    );
-}
+import { GeneralContext } from '../App';
+import { useNavigate } from 'react-router-dom';
+import { RoleTypes } from '../components/Navbar';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function Login() {
+    const {user, loader, setLoader, setUser, userRolyType, setUserRoleType} = useContext(GeneralContext);
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-        });
+        
+        setLoader(true);
+        fetch(`https://api.shipap.co.il/clients/login?token=204f16e2-44e7-11ee-ba96-14dda9d4a5f0`, {
+            credentials: 'include',
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({
+                email: data.get("email"),
+                password: data.get("password"),
+            }),
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                return res.text().then(x => {
+                    throw new Error(x);
+                });
+            }
+        })
+        .then(data => {
+            setUser(data);
+        setUserRoleType(RoleTypes.user);
+        if (data.business){
+            setUserRoleType(RoleTypes.business);
+        } else if (data.admin){
+            setUserRoleType(RoleTypes.admin);
+        }
+        navigate("/");
+        })
+        .catch(err => {
+            alert(err.message);
+        })
+        .finally(() => setLoader(false));
     };
 
     return (
@@ -105,7 +128,6 @@ export default function Login() {
                 </Grid>
             </Box>
             </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
         </ThemeProvider>
     );

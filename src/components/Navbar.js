@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,13 +12,38 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { Link, useNavigate } from 'react-router-dom';
+import { GeneralContext } from '../App';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+export const RoleTypes = {
+    none: 0,
+    user: 1,
+    business: 2,
+    admin: 3,
+};
+
+export const checkPermissions = (permissions, userRoleType) => {
+    return permissions.includes(userRoleType);
+}
+
+const pages = [
+    {route: '/about', title: 'About'},
+    {route: '/login', title: 'Login', permissions: [RoleTypes.none]},
+    {route: '/signup', title: 'Signup', permissions: [RoleTypes.none]},
+    {route: '/favorite', title: 'Fav cards', permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
+    {route: '/my-cards', title: 'My cards', permissions: [RoleTypes.business, RoleTypes.admin]},
+    {route: '/admin', title: 'User managment', permissions: [RoleTypes.admin]},
+];
+const settings = [
+    {route: '/account', title: 'Account', permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
+];
 
 export default function Navbar() {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const {user, loader, setLoader, setUser, userRolyType, setUserRoleType} = useContext(GeneralContext);
+    const navigate = useNavigate();
+
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -34,6 +59,21 @@ export default function Navbar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const logout = () => {
+        setLoader(true);
+        fetch(`https://api.shipap.co.il/clients/logout`, {
+            credentials: 'include',
+        })
+        .then(() => {
+            setUser();
+            setUserRoleType(RoleTypes.none);
+            setLoader(false);
+            navigate("/");
+        });
+
+        handleCloseUserMenu();
+    }
 
     return (
         <AppBar position="static">
@@ -87,10 +127,12 @@ export default function Navbar() {
                     display: { xs: 'block', md: 'none' },
                 }}
                 >
-                {pages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                    </MenuItem>
+                {pages.filter(p => !p.permissions || checkPermissions(p.permissions, userRolyType)).map(p => (
+                    <Link key={p.route} to={p.route} style={{ textDecoration: 'none', color: 'black' }}>
+                        <MenuItem onClick={handleCloseNavMenu}>
+                            <Typography textAlign="center">{p.title}</Typography>
+                        </MenuItem>
+                    </Link>
                 ))}
                 </Menu>
             </Box>
@@ -114,18 +156,20 @@ export default function Navbar() {
                 LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                {pages.map((page) => (
-                <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                    {page}
-                </Button>
+                {pages.filter(p => !p.permissions || checkPermissions(p.permissions, userRolyType)).map(p => (
+                    <Link key={p.route} to={p.route} style={{ textDecoration: 'none', color: 'white' }}>
+                    <Button
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                        {p.title}
+                    </Button>
+                    </Link>
                 ))}
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
+            {user ?
+                <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -147,13 +191,21 @@ export default function Navbar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
                 >
-                {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
+                {settings.map(s => (
+                    <Link key={s.route} to={s.route} style={{ textDecoration: 'none', color: 'black' }}>
+                        <MenuItem onClick={handleCloseUserMenu}>
+                            <Typography textAlign="center">{s.title}</Typography>
+                        </MenuItem>
+                    </Link>
                 ))}
+                <MenuItem onClick={logout}>
+                            <Typography textAlign="center">Logout</Typography>
+                        </MenuItem>
                 </Menu>
             </Box>
+            : ""
+            }
+
             </Toolbar>
         </Container>
         </AppBar>
