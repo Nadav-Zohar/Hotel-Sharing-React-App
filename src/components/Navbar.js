@@ -27,21 +27,39 @@ export const checkPermissions = (permissions, userRoleType) => {
 }
 
 const pages = [
-    {route: '/about', title: 'About'},
-    {route: '/login', title: 'Login', permissions: [RoleTypes.none]},
-    {route: '/signup', title: 'Signup', permissions: [RoleTypes.none]},
-    {route: '/favorite', title: 'Fav cards', permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
-    {route: '/my-cards', title: 'My cards', permissions: [RoleTypes.business, RoleTypes.admin]},
-    {route: '/admin', title: 'User managment', permissions: [RoleTypes.admin]},
+    {route: '/about', 
+    title: 'About'},
+    
+    {route: '/login', 
+    title: 'Login', 
+    permissions: [RoleTypes.none]},
+
+    {route: '/signup', 
+    title: 'Signup', 
+    permissions: [RoleTypes.none]},
+    
+    {route: '/favorite', 
+    title: 'Fav cards', 
+    permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
+    
+    {route: '/my-cards', 
+    title: 'My cards', 
+    permissions: [RoleTypes.business, RoleTypes.admin]},
+    
+    {route: '/admin', 
+    title: 'User managment', 
+    permissions: [RoleTypes.admin]},
 ];
 const settings = [
-    {route: '/account', title: 'Account', permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
+    {route: '/account', 
+    title: 'Account', 
+    permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
 ];
 
 export default function Navbar() {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const {user, loader, setLoader, setUser, userRolyType, setUserRoleType} = useContext(GeneralContext);
+    const {user, setLoader, setUser, userRolyType, setUserRoleType} = useContext(GeneralContext);
     const navigate = useNavigate();
 
 
@@ -95,7 +113,7 @@ export default function Navbar() {
                 textDecoration: 'none',
                 }}
             >
-                LOGO
+                My Cards
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -153,7 +171,7 @@ export default function Navbar() {
                 textDecoration: 'none',
                 }}
             >
-                LOGO
+                My Cards
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {pages.filter(p => !p.permissions || checkPermissions(p.permissions, userRolyType)).map(p => (
@@ -172,7 +190,7 @@ export default function Navbar() {
                 <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    <Avatar alt={user.fullName} src="/static/images/avatar/2.jpg" />
                 </IconButton>
                 </Tooltip>
                 <Menu

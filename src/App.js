@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, useEffect } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import './App.css';
 import Footer from './components/Footer';
 import Navbar, {RoleTypes} from './components/Navbar';
