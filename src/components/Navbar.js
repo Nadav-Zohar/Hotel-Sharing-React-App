@@ -47,7 +47,7 @@ const pages = [
     permissions: [RoleTypes.business, RoleTypes.admin]},
     
     {route: '/admin', 
-    title: 'User managment', 
+    title: "User's management", 
     permissions: [RoleTypes.admin]},
 ];
 

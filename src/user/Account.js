@@ -4,7 +4,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -13,6 +12,7 @@ import { useContext } from 'react';
 import { GeneralContext } from '../App';
 import Switch from '@mui/material/Switch';
 import { FormControlLabel } from '@mui/material';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 const defaultTheme = createTheme();
 const clientStructure = [
@@ -75,13 +75,13 @@ export default function Account() {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                        <EditOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">{user ? `${user.fullName}'s info` : ""}</Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <Grid container spacing={2}>
                             {
-                                clientStructure.filter(s => !s.initialOnly).map(s =>
+                                clientStructure.map(s =>
                                     <Grid key={s.name} item xs={12} sm={s.block ? 12 : 6}>
                                         {
                                             s.type === 'boolean' ?
