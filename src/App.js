@@ -17,22 +17,22 @@ function App() {
       credentials: 'include',
     })
     .then(res => {
-        if (res.ok) {
-            return res.json();
-        } else {
-            return res.text().then(x => {
-                throw new Error(x);
-            });
-        }
+      if (res.ok) {
+          return res.json();
+      } else {
+          return res.text().then(x => {
+              throw new Error(x);
+          });
+      }
     })
     .then(data => {
-        setUser(data);
-        setUserRoleType(RoleTypes.user);
-        if (data.business){
-          setUserRoleType(RoleTypes.business);
-        } else if (data.admin){
-          setUserRoleType(RoleTypes.admin);
-        }
+      setUser(data);
+      setUserRoleType(RoleTypes.user);
+      if (data.business){
+        setUserRoleType(RoleTypes.business);
+      } else if (data.admin){
+        setUserRoleType(RoleTypes.admin);
+      }
     })
     .catch(err => {
       setUserRoleType(RoleTypes.none);

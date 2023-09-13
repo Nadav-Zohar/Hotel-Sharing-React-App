@@ -50,11 +50,6 @@ const pages = [
     title: 'User managment', 
     permissions: [RoleTypes.admin]},
 ];
-const settings = [
-    {route: '/account', 
-    title: 'Account', 
-    permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
-];
 
 export default function Navbar() {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -209,13 +204,11 @@ export default function Navbar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
                 >
-                {settings.map(s => (
-                    <Link key={s.route} to={s.route} style={{ textDecoration: 'none', color: 'black' }}>
+                <Link to="/account" style={{ textDecoration: 'none', color: 'black' }}>
                         <MenuItem onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">{s.title}</Typography>
+                            <Typography textAlign="center">{user.fullName}</Typography>
                         </MenuItem>
-                    </Link>
-                ))}
+                    </Link> 
                 <MenuItem onClick={logout}>
                             <Typography textAlign="center">Logout</Typography>
                         </MenuItem>

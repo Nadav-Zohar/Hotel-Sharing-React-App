@@ -10,6 +10,7 @@ export default function Router() {
             <Route path='/login' element={<Login />}></Route>
             <Route path='/signup' element={<Signup />}></Route>
             <Route path='/account' element={<Account />}></Route>
+            <Route path='/'></Route>
         </Routes>
         )
 }
