@@ -1,17 +1,27 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState, createContext, useEffect } from 'react';
 import './App.css';
 import Navbar, {RoleTypes} from './components/Navbar';
 import Router from './Router';
 import Loader from './components/Loader';
 import SimpleBottomNavigation from './components/BottomNavigation';
+import { CssBaseline, createTheme } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
 
 export const GeneralContext= createContext()
 
 function App() {
-    const [user, setUser]= useState();
-    const [loader, setLoader] = useState(true);
-    const [userRolyType, setUserRoleType]= useState(RoleTypes.none);
-
+  
+  const [mode, setMode]= useState("light");
+  const [user, setUser]= useState();
+  const [loader, setLoader] = useState(true);
+  const [userRolyType, setUserRoleType]= useState(RoleTypes.none);
+  
+  const theme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
     useEffect(() => {
       fetch(`https://api.shipap.co.il/clients/login`, {
       credentials: 'include',
@@ -41,12 +51,15 @@ function App() {
     }, [])
 
   return (
-    <GeneralContext.Provider value={{ user, loader, setLoader, setUser, userRolyType, setUserRoleType }}>
-      <Navbar />
-      <Router />
-      <SimpleBottomNavigation />
-      {loader && <Loader />}
-    </GeneralContext.Provider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline></CssBaseline>
+      <GeneralContext.Provider value={{ user, loader, setLoader, setUser, userRolyType, setUserRoleType, mode, setMode }}>
+        <Navbar />
+        <Router />
+        <SimpleBottomNavigation />
+        {loader && <Loader />}
+      </GeneralContext.Provider>
+    </ThemeProvider>
   );
 }
 

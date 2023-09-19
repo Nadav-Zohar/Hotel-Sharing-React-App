@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useNavigate } from 'react-router-dom';
 import { GeneralContext } from '../App';
+import { FormControlLabel, FormGroup } from '@mui/material';
+import { MaterialUISwitch } from './NavbarDarkMode';
 
 export const RoleTypes = {
     none: 0,
@@ -37,9 +39,19 @@ const pages = [
 
 export default function Navbar() {
     const [anchorElNav, setAnchorElNav] = useState(null);
+    const [switchColor, setSwitchColor] = useState("black");
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const {user, setLoader, setUser, userRolyType, setUserRoleType} = useContext(GeneralContext);
+    const {user, setLoader, setUser, userRolyType, setUserRoleType, mode, setMode} = useContext(GeneralContext);
     const navigate = useNavigate();
+    const handleMode = () => {
+        if(mode === "light"){
+            setMode("dark")
+            setSwitchColor("white")
+        } else if(mode === "dark"){
+            setMode("light")
+            setSwitchColor("black")
+        }
+    }
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -154,6 +166,11 @@ export default function Navbar() {
                     </Link>
                 ))}
             </Box>
+            <FormGroup>
+                <FormControlLabel
+                    control={<MaterialUISwitch sx={{ m: 1 }} onChange={handleMode} />}
+                />
+            </FormGroup>
             {user ?
                 <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
@@ -177,7 +194,7 @@ export default function Navbar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
                 >
-                <Link to="/account" style={{ textDecoration: 'none', color: 'black' }}>
+                <Link to="/account" style={{ textDecoration: 'none', color: switchColor }}>
                         <MenuItem onClick={handleCloseUserMenu}>
                             <Typography textAlign="center">{user.fullName}</Typography>
                         </MenuItem>

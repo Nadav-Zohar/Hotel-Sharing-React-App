@@ -1,0 +1,32 @@
+.accordion-wrapper{
+  width: 60vw;
+  margin: 50px auto;
+}
+.about-header {
+  text-align: center;
+  width: 60vw;
+  word-wrap: break-word;
+  margin: 0 auto;
+}
+.about-header h1 {
+  font-size: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  margin-bottom: 20px;
+}
+.about-header p {
+  font-size: 1.2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+.about-content {
+  margin: 20px auto;
+  text-align: center;
+  width: 60vw;
+  word-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+.about-text {
+  /* text-align: center; */
+}
