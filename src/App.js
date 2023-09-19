@@ -1,9 +1,9 @@
 import { useState, createContext, useEffect } from 'react';
 import './App.css';
-import Footer from './components/Footer';
 import Navbar, {RoleTypes} from './components/Navbar';
 import Router from './Router';
 import Loader from './components/Loader';
+import SimpleBottomNavigation from './components/BottomNavigation';
 
 export const GeneralContext= createContext()
 
@@ -42,10 +42,10 @@ function App() {
 
   return (
     <GeneralContext.Provider value={{ user, loader, setLoader, setUser, userRolyType, setUserRoleType }}>
-    <Navbar />
-    <Router />
-    <Footer />
-    {loader && <Loader />}
+      <Navbar />
+      <Router />
+      <SimpleBottomNavigation />
+      {loader && <Loader />}
     </GeneralContext.Provider>
   );
 }

@@ -27,28 +27,12 @@ export const checkPermissions = (permissions, userRoleType) => {
 }
 
 const pages = [
-    {route: '/about', 
-    title: 'About'},
-    
-    {route: '/login', 
-    title: 'Login', 
-    permissions: [RoleTypes.none]},
-
-    {route: '/signup', 
-    title: 'Signup', 
-    permissions: [RoleTypes.none]},
-    
-    {route: '/favorite', 
-    title: 'Fav cards', 
-    permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
-    
-    {route: '/my-cards', 
-    title: 'My cards', 
-    permissions: [RoleTypes.business, RoleTypes.admin]},
-    
-    {route: '/admin', 
-    title: "User's management", 
-    permissions: [RoleTypes.admin]},
+    {route: '/about', title: 'About'},
+    {route: '/login', title: 'Login', permissions: [RoleTypes.none]},
+    {route: '/signup', title: 'Signup', permissions: [RoleTypes.none]},
+    {route: '/favorite', title: 'Fav cards', permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
+    {route: '/my-cards', title: 'My cards', permissions: [RoleTypes.business, RoleTypes.admin]},
+    {route: '/admin', title: "User's management", permissions: [RoleTypes.admin]},
 ];
 
 export default function Navbar() {
@@ -56,23 +40,18 @@ export default function Navbar() {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const {user, setLoader, setUser, userRolyType, setUserRoleType} = useContext(GeneralContext);
     const navigate = useNavigate();
-
-
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
     const logout = () => {
         setLoader(true);
         fetch(`https://api.shipap.co.il/clients/logout`, {
@@ -84,10 +63,8 @@ export default function Navbar() {
             setLoader(false);
             navigate("/");
         });
-
         handleCloseUserMenu();
     }
-
     return (
         <AppBar position="static">
         <Container maxWidth="xl">
@@ -107,10 +84,7 @@ export default function Navbar() {
                 color: 'inherit',
                 textDecoration: 'none',
                 }}
-            >
-                My Cards
-            </Typography>
-
+            > My Cards </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                 size="large"
@@ -180,7 +154,6 @@ export default function Navbar() {
                     </Link>
                 ))}
             </Box>
-
             {user ?
                 <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
@@ -216,7 +189,6 @@ export default function Navbar() {
             </Box>
             : ""
             }
-
             </Toolbar>
         </Container>
         </AppBar>
