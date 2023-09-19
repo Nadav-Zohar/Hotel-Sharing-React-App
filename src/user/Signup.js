@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-duplicate-props */
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -16,29 +15,19 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { GeneralContext } from '../App';
 import Joi from 'joi';
-
-
 const defaultTheme = createTheme();
-
 export default function Signup() {
     const [formData, setFormData]= React.useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
+        firstName: "", lastName: "", email: "", password: "", middleName: "", phone: "", country: "", city: "", street: "", houseNumber: "", zip: "",
     })
     const [isFormValid,setIsFormValid]= React.useState(false);
     const {setLoader} = React.useContext(GeneralContext);
     const navigate = useNavigate();
     const [errors, setErrors]=  React.useState({});
     const schema = Joi.object({
-        firstName: Joi.string().min(3).max(30).required(),
-        lastName: Joi.string().min(3).max(30).required(),
-        email: Joi.string().email({ tlds: false }).required(),
-        password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required().messages({
+        firstName: Joi.string().min(3).max(30).required(), lastName: Joi.string().min(3).max(30).required(), email: Joi.string().email({ tlds: false }).required(), password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required().messages({
             "string.pattern.base": "Please ensure your password contains 8 characters, including at least one uppercase letter, one lowercase letter, and one of the following symbols: ! @ # $ % ^ & * - _ for enhanced security. Thank you",
-            "any.required": "Password is required",
-        }),
+            "any.required": "Password is required",}), middleName: Joi.string().min(3).max(30).required(), phone: Joi.string().min(10).max(15).required(), country: Joi.string().min(3).max(50).required(), city: Joi.string().min(3).max(50).required(), street: Joi.string().min(5).max(100).required(), houseNumber: Joi.string().min(1).max(20).required(), zip: Joi.string().min(5).max(10).required(),
         });
         const handleChange = ev => {
             const {name, value}= ev.target;
@@ -52,7 +41,6 @@ export default function Signup() {
                 validate.error.details.forEach(e => {
                     const key= e.context.key;
                     const err= e.message;
-    
                     errors[key]= err;
                 })
             }
@@ -70,21 +58,7 @@ export default function Signup() {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
-                firstName: data.get("firstName"),
-                middleName: data.get("middleName"),
-                lastName: data.get("lastName"),
-                phone: data.get("phone"),
-                email: data.get("email"),
-                password: data.get("password"),
-                imgUrl: "",
-                imgAlt: "",
-                state: "",
-                country: data.get("country"),
-                city: data.get("city"),
-                street: data.get("street"),
-                houseNumber: data.get("houseNumber"),
-                zip: data.get("zip"),
-                business: businessCheck,
+                firstName: data.get("firstName"), middleName: data.get("middleName"), lastName: data.get("lastName"), phone: data.get("phone"), email: data.get("email"), password: data.get("password"), imgUrl: "", imgAlt: "", state: "", country: data.get("country"), city: data.get("city"), street: data.get("street"), houseNumber: data.get("houseNumber"), zip: data.get("zip"), business: businessCheck,
             }),
         })
         .then(res => {
@@ -119,12 +93,12 @@ export default function Signup() {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                autoComplete="given-name" helperText={errors.firstName} error= {Boolean(errors.firstName)} onChange={handleChange} name="firstName" value={formData.firstName} required fullWidth id="firstName" label="First Name" autoFocus 
+                                autoComplete="given-name" value={formData.firstName} helperText={errors.firstName} error= {Boolean(errors.firstName)} onChange={handleChange} name="firstName" required fullWidth id="firstName" label="First Name" autoFocus 
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                autoComplete="middle-name" name="middleName" fullWidth id="middleName" label="Middle Name"
+                                autoComplete="middle-name" value={formData.middleName} helperText={errors.middleName} error= {Boolean(errors.middleName)} onChange={handleChange} name="middleName" fullWidth id="middleName" label="Middle Name"
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
@@ -134,7 +108,7 @@ export default function Signup() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                fullWidth id="phone" label="Phone Number" name="phone" autoComplete="phone"
+                                fullWidth id="phone" value={formData.phone} helperText={errors.phone} error= {Boolean(errors.phone)} onChange={handleChange} label="Phone Number" name="phone" autoComplete="phone"
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -149,27 +123,27 @@ export default function Signup() {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                name="country" fullWidth id="country" label="Country"
+                                name="country" value={formData.country} helperText={errors.country} error= {Boolean(errors.country)} onChange={handleChange} fullWidth id="country" label="Country"
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                name="city" fullWidth id="city" label="City"
+                                name="city" value={formData.city} helperText={errors.city} error= {Boolean(errors.city)} onChange={handleChange} fullWidth id="city" label="City"
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                name="street" fullWidth id="street" label="Street"
+                                name="street" value={formData.street} helperText={errors.street} error= {Boolean(errors.street)} onChange={handleChange} fullWidth id="street" label="Street"
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                name="houseNumber" fullWidth id="houseNumber" label="House Number"
+                                name="houseNumber" value={formData.houseNumber} helperText={errors.houseNumber} error= {Boolean(errors.houseNumber)} onChange={handleChange} fullWidth id="houseNumber" label="House Number"
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                name="zip" fullWidth id="zip" label="Zip"
+                                name="zip" value={formData.zip} helperText={errors.zip} error= {Boolean(errors.zip)} onChange={handleChange} fullWidth id="zip" label="Zip"
                             />
                         </Grid>
                         <Grid item xs={12}>
