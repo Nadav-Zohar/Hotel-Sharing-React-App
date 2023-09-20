@@ -15,7 +15,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { GeneralContext } from '../App';
 import Joi from 'joi';
-const defaultTheme = createTheme();
 export default function Signup() {
     const {setLoader, setOpen, setIsSuccess, setSnackbarMassage, mode} = React.useContext(GeneralContext);
     const theme = createTheme({

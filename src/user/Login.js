@@ -18,7 +18,6 @@ import { RoleTypes } from '../components/Navbar';
 import Joi from 'joi';
 
 
-const defaultTheme = createTheme();
 
 export default function Login() {
     const { setLoader, setUser, setUserRoleType, setOpen, setIsSuccess, setSnackbarMassage, mode} = useContext(GeneralContext);

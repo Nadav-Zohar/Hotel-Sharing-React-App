@@ -13,7 +13,6 @@ import { GeneralContext } from '../App';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Joi from 'joi';
 
-const defaultTheme = createTheme();
 
 export default function Account() {
     const { user, setLoader, mode } = useContext(GeneralContext);
