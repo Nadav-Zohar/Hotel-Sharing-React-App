@@ -55,26 +55,25 @@ export default function Account() {
 
     const handleChange = (ev) => {
         const { name, value } = ev.target;
-      
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          [name]: value,
-        }));
-      
-        const validate = schema.validate({ ...formData, [name]: value }, { abortEarly: false });
-        const newErrors = {};
-      
-        if (validate.error) {
-          validate.error.details.forEach((e) => {
-            const key = e.context.key;
-            const err = e.message;
-            newErrors[key] = err;
-          });
-        }
-        setIsFormValid(!validate.error);
-        setErrors(newErrors);
-      };
-      
+            setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+            }));
+        
+            const validate = schema.validate({ ...formData, [name]: value }, { abortEarly: false });
+            const newErrors = {};
+        
+            if (validate.error) {
+            validate.error.details.forEach((e) => {
+                const key = e.context.key;
+                const err = e.message;
+                newErrors[key] = err;
+            });
+            }
+            setIsFormValid(!validate.error);
+            setErrors(newErrors);
+        };
+        
 
     const handleSubmit = ev => {
         ev.preventDefault();
