@@ -17,11 +17,16 @@ import { GeneralContext } from '../App';
 import Joi from 'joi';
 const defaultTheme = createTheme();
 export default function Signup() {
+    const {setLoader, setOpen, setIsSuccess, setSnackbarMassage, mode} = React.useContext(GeneralContext);
+    const theme = createTheme({
+        palette: {
+            mode: mode,
+        },
+    });
     const [formData, setFormData]= React.useState({
         firstName: "", lastName: "", email: "", password: "", middleName: "", phone: "", country: "", city: "", street: "", houseNumber: "", zip: "",
     })
     const [isFormValid,setIsFormValid]= React.useState(false);
-    const {setLoader, setOpen, setIsSuccess, setSnackbarMassage} = React.useContext(GeneralContext);
     const navigate = useNavigate();
     const [errors, setErrors]=  React.useState({});
     const schema = Joi.object({
@@ -79,13 +84,13 @@ export default function Signup() {
         .catch(err => {
             setOpen(true);
             setIsSuccess("error");
-            setSnackbarMassage("err.message");
+            setSnackbarMassage("change me to english text");
             setLoader(false);
 
         });
         };
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box

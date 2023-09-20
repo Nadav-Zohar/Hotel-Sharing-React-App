@@ -21,12 +21,17 @@ import Joi from 'joi';
 const defaultTheme = createTheme();
 
 export default function Login() {
+    const { setLoader, setUser, setUserRoleType, setOpen, setIsSuccess, setSnackbarMassage, mode} = useContext(GeneralContext);
+    const theme = createTheme({
+        palette: {
+            mode: mode,
+        },
+    });
     const [formData, setFormData]= useState({
         email: "",
         password: "",
     })
     const [isFormValid,setIsFormValid]= useState(false);
-    const { setLoader, setUser, setUserRoleType, setOpen, setIsSuccess, setSnackbarMassage} = useContext(GeneralContext);
     const [errors, setErrors]=  useState({});
     const navigate = useNavigate();
 
@@ -103,7 +108,7 @@ export default function Login() {
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box

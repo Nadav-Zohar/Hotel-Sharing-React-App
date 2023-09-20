@@ -16,7 +16,13 @@ import Joi from 'joi';
 const defaultTheme = createTheme();
 
 export default function Account() {
-    const { user, setLoader } = useContext(GeneralContext);
+    const { user, setLoader, mode } = useContext(GeneralContext);
+
+    const theme = createTheme({
+        palette: {
+            mode: mode,
+        },
+    });
     
     const clientStructure = [
         { name: 'firstName', type: 'text', label: 'First Name', required: true, block: true },
@@ -51,14 +57,10 @@ export default function Account() {
     const handleChange = (ev) => {
         const { name, value } = ev.target;
       
-        // Update only the formData object
         setFormData((prevFormData) => ({
           ...prevFormData,
           [name]: value,
         }));
-      
-        // Do not update the user object here
-        // setUser({ ...user, [name]: value });
       
         const validate = schema.validate({ ...formData, [name]: value }, { abortEarly: false });
         const newErrors = {};
@@ -102,7 +104,7 @@ export default function Account() {
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme={theme}>
             {
                 user && !user.admin ? 
             <Container component="main" maxWidth="xs">
