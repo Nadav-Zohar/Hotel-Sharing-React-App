@@ -18,7 +18,7 @@ function App() {
   const [loader, setLoader] = useState(true);
   const [userRolyType, setUserRoleType]= useState(RoleTypes.none);
   
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [isSuccess, setIsSuccess]= React.useState("error");
   const [snackbarMassage, setSnackbarMassage]= React.useState("This is wrong");
   
