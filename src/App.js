@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import './App.css';
 import Navbar, {RoleTypes} from './components/Navbar';
 import Router from './Router';
@@ -7,6 +7,7 @@ import Loader from './components/Loader';
 import SimpleBottomNavigation from './components/BottomNavigation';
 import { CssBaseline, createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
+import CustomizedSnackbars from './components/Snackbar';
 
 export const GeneralContext= createContext()
 
@@ -16,6 +17,10 @@ function App() {
   const [user, setUser]= useState();
   const [loader, setLoader] = useState(true);
   const [userRolyType, setUserRoleType]= useState(RoleTypes.none);
+  
+  const [open, setOpen] = React.useState(true);
+  const [isSuccess, setIsSuccess]= React.useState("error");
+  const [snackbarMassage, setSnackbarMassage]= React.useState("This is wrong");
   
   const theme = createTheme({
     palette: {
@@ -53,11 +58,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline></CssBaseline>
-      <GeneralContext.Provider value={{ user, loader, setLoader, setUser, userRolyType, setUserRoleType, mode, setMode }}>
+      <GeneralContext.Provider value={{ user, loader, setLoader, setUser, userRolyType, setUserRoleType, mode, setMode, open, setOpen, isSuccess ,setIsSuccess, snackbarMassage, setSnackbarMassage }}>
         <Navbar />
         <Router />
         <SimpleBottomNavigation />
         {loader && <Loader />}
+        <CustomizedSnackbars />
       </GeneralContext.Provider>
     </ThemeProvider>
   );

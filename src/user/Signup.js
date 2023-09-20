@@ -21,7 +21,7 @@ export default function Signup() {
         firstName: "", lastName: "", email: "", password: "", middleName: "", phone: "", country: "", city: "", street: "", houseNumber: "", zip: "",
     })
     const [isFormValid,setIsFormValid]= React.useState(false);
-    const {setLoader} = React.useContext(GeneralContext);
+    const {setLoader, setOpen, setIsSuccess, setSnackbarMassage} = React.useContext(GeneralContext);
     const navigate = useNavigate();
     const [errors, setErrors]=  React.useState({});
     const schema = Joi.object({
@@ -33,7 +33,6 @@ export default function Signup() {
             const {name, value}= ev.target;
             const obj ={...formData, [name]: value}
             setFormData(obj);
-    
             const validate= schema.validate(obj, {abortEarly: false})
             const errors= {};
     
@@ -71,11 +70,18 @@ export default function Signup() {
             }
         })
         .then(data => {
+            setOpen(true);
+            setIsSuccess("success");
+            setSnackbarMassage("User Created");
             setLoader(false);
             navigate("/login");
         })
         .catch(err => {
-            alert(err.message);
+            setOpen(true);
+            setIsSuccess("error");
+            setSnackbarMassage("err.message");
+            setLoader(false);
+
         });
         };
     return (
@@ -93,27 +99,27 @@ export default function Signup() {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                autoComplete="given-name" value={formData.firstName} helperText={errors.firstName} error= {Boolean(errors.firstName)} onChange={handleChange} name="firstName" required fullWidth id="firstName" label="First Name" autoFocus 
+                                autoComplete="given-name" value={formData.firstName} helperText={errors.firstName} error= {Boolean(errors.firstName)} onChange={handleChange} name="firstName" required fullWidth id="firstName" label="First Name" autoFocus  type='text'
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                autoComplete="middle-name" value={formData.middleName} helperText={errors.middleName} error= {Boolean(errors.middleName)} onChange={handleChange} name="middleName" fullWidth id="middleName" label="Middle Name"
+                                autoComplete="middle-name" value={formData.middleName} helperText={errors.middleName} error= {Boolean(errors.middleName)} onChange={handleChange} name="middleName" fullWidth id="middleName" label="Middle Name" type='text'
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                required fullWidth id="lastName" error={Boolean(errors.lastName)} helperText={errors.lastName} onChange={handleChange} label="Last Name" value={formData.lastName} name="lastName" autoComplete="family-name"
+                                required fullWidth id="lastName" error={Boolean(errors.lastName)} helperText={errors.lastName} onChange={handleChange} label="Last Name" value={formData.lastName} name="lastName" autoComplete="family-name" type='text'
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                fullWidth id="phone" value={formData.phone} helperText={errors.phone} error= {Boolean(errors.phone)} onChange={handleChange} label="Phone Number" name="phone" autoComplete="phone"
+                                fullWidth id="phone" value={formData.phone} helperText={errors.phone} error= {Boolean(errors.phone)} onChange={handleChange} label="Phone Number" name="phone" autoComplete="phone" type='number'
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                required fullWidth id="email" error={Boolean(errors.email)} helperText={errors.email} onChange={handleChange} label="Email Address" name="email" value={formData.email} autoComplete="email"
+                                required fullWidth id="email" error={Boolean(errors.email)} helperText={errors.email} onChange={handleChange} label="Email Address" name="email" value={formData.email} autoComplete="email" type='email'
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -123,27 +129,27 @@ export default function Signup() {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                name="country" value={formData.country} helperText={errors.country} error= {Boolean(errors.country)} onChange={handleChange} fullWidth id="country" label="Country"
+                                name="country" value={formData.country} helperText={errors.country} error= {Boolean(errors.country)} onChange={handleChange} fullWidth id="country" label="Country" type='text'
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                name="city" value={formData.city} helperText={errors.city} error= {Boolean(errors.city)} onChange={handleChange} fullWidth id="city" label="City"
+                                name="city" value={formData.city} helperText={errors.city} error= {Boolean(errors.city)} onChange={handleChange} fullWidth id="city" label="City" type='text'
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                name="street" value={formData.street} helperText={errors.street} error= {Boolean(errors.street)} onChange={handleChange} fullWidth id="street" label="Street"
+                                name="street" value={formData.street} helperText={errors.street} error= {Boolean(errors.street)} onChange={handleChange} fullWidth id="street" label="Street" type='text'
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                name="houseNumber" value={formData.houseNumber} helperText={errors.houseNumber} error= {Boolean(errors.houseNumber)} onChange={handleChange} fullWidth id="houseNumber" label="House Number"
+                                name="houseNumber" value={formData.houseNumber} helperText={errors.houseNumber} error= {Boolean(errors.houseNumber)} onChange={handleChange} type='number' fullWidth id="houseNumber" label="House Number"
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                name="zip" value={formData.zip} helperText={errors.zip} error= {Boolean(errors.zip)} onChange={handleChange} fullWidth id="zip" label="Zip"
+                                name="zip" value={formData.zip} helperText={errors.zip} error= {Boolean(errors.zip)} onChange={handleChange} fullWidth id="zip" label="Zip" type='number'
                             />
                         </Grid>
                         <Grid item xs={12}>

@@ -26,7 +26,7 @@ export default function Login() {
         password: "",
     })
     const [isFormValid,setIsFormValid]= useState(false);
-    const { setLoader, setUser, setUserRoleType} = useContext(GeneralContext);
+    const { setLoader, setUser, setUserRoleType, setOpen, setIsSuccess, setSnackbarMassage} = useContext(GeneralContext);
     const [errors, setErrors]=  useState({});
     const navigate = useNavigate();
 
@@ -82,6 +82,9 @@ export default function Login() {
             }
         })
         .then(data => {
+            setOpen(true);
+            setIsSuccess("success");
+            setSnackbarMassage("Succesfuly Logged");
             setUser(data);
         setUserRoleType(RoleTypes.user);
         if (data.business){
@@ -92,7 +95,9 @@ export default function Login() {
         navigate("/");
         })
         .catch(err => {
-            alert(err.message);
+            setOpen(true);
+            setIsSuccess("error");
+            setSnackbarMassage("Email or Password are incorrect");
         })
         .finally(() => setLoader(false));
     };
@@ -158,11 +163,6 @@ export default function Login() {
                 Sign In
                 </Button>
                 <Grid container>
-                <Grid item xs>
-                    <Link href="#" variant="body2">
-                    Forgot password?
-                    </Link>
-                </Grid>
                 <Grid item>
                     <Link href="/signup" variant="body2">
                     {"Don't have an account? Sign Up"}

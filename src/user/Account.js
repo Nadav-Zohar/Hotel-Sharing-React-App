@@ -8,31 +8,72 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { GeneralContext } from '../App';
-import Switch from '@mui/material/Switch';
-import { FormControlLabel } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import Joi from 'joi';
 
 const defaultTheme = createTheme();
-const clientStructure = [
-    { name: 'firstName', type: 'text', label: 'First Name', required: true, block: true },
-    { name: 'middleName', type: 'text', label: 'Middle Name', required: false, block: false },
-    { name: 'lastName', type: 'text', label: 'Last Name', required: true, block: false },
-    { name: 'phone', type: 'tel', label: 'Phone', required: false, block: false },
-    { name: 'email', type: 'email', label: 'Email', required: true, block: false },
-    { name: 'imgUrl', type: 'text', label: 'Img Url', required: false, block: true },
-    { name: 'imgAlt', type: 'text', label: 'Img Alt', required: false, block: true },
-    { name: 'country', type: 'text', label: 'Country', required: false, block: false },
-    { name: 'city', type: 'text', label: 'City', required: false, block: false },
-    { name: 'street', type: 'text', label: 'Street', required: false, block: false },
-    { name: 'houseNumber', type: 'number', label: 'House Number', required: false, block: false },
-    { name: 'zip', type: 'number', label: 'Zip', required: false, block: true },
-];
 
 export default function Account() {
-    const { user, setUser, setLoader } = useContext(GeneralContext);
-    console.log(user);
+    const { user, setLoader } = useContext(GeneralContext);
+    
+    const clientStructure = [
+        { name: 'firstName', type: 'text', label: 'First Name', required: true, block: true },
+        { name: 'middleName', type: 'text', label: 'Middle Name', required: false, block: false },
+        { name: 'lastName', type: 'text', label: 'Last Name', required: true, block: false },
+        { name: 'phone', type: 'number', label: 'Phone', required: false, block: false },
+        { name: 'email', type: 'email', label: 'Email', required: true, block: false },
+        { name: 'country', type: 'text', label: 'Country', required: false, block: false },
+        { name: 'city', type: 'text', label: 'City', required: false, block: false },
+        { name: 'street', type: 'text', label: 'Street', required: false, block: false },
+        { name: 'houseNumber', type: 'number', label: 'House Number', required: false, block: false },
+        { name: 'zip', type: 'number', label: 'Zip', required: false, block: true },
+    ];
+    
+    const [formData, setFormData]= React.useState({
+        firstName:"", lastName: "", email: "", middleName: "", phone: "", country: "", city: "", street: "", houseNumber: "", zip: "",
+    })
+    useEffect(() => {
+        if (user){
+            setFormData({
+                firstName:user.firstName || "", lastName:user.lastName || "", email:user.email || "", middleName:user.middleName || "", phone:user.phone || "", country:user.country || "", city:user.city || "", street:user.street || "", houseNumber:String(user.houseNumber) || "", zip:String(user.zip) || "",
+            })
+        }
+        
+    }, [user])
+    const schema = Joi.object({
+        firstName: Joi.string().min(3).max(30).required(), lastName: Joi.string().min(3).max(30).required(), email: Joi.string().email({ tlds: false }).required(), middleName: Joi.string().min(3).max(30).required(), phone: Joi.string().min(10).max(15).required(), country: Joi.string().min(3).max(50).required(), city: Joi.string().min(3).max(50).required(), street: Joi.string().min(5).max(100).required(), houseNumber: Joi.string().min(1).max(20).required(), zip: Joi.string().min(5).max(10).required(),
+        });
+    const [isFormValid,setIsFormValid]= React.useState(false);
+    const [errors, setErrors]=  React.useState({});
+
+    const handleChange = (ev) => {
+        const { name, value } = ev.target;
+      
+        // Update only the formData object
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+        }));
+      
+        // Do not update the user object here
+        // setUser({ ...user, [name]: value });
+      
+        const validate = schema.validate({ ...formData, [name]: value }, { abortEarly: false });
+        const newErrors = {};
+      
+        if (validate.error) {
+          validate.error.details.forEach((e) => {
+            const key = e.context.key;
+            const err = e.message;
+            newErrors[key] = err;
+          });
+        }
+        setIsFormValid(!validate.error);
+        setErrors(newErrors);
+      };
+      
 
     const handleSubmit = ev => {
         ev.preventDefault();
@@ -84,13 +125,9 @@ export default function Account() {
                                 clientStructure.map(s =>
                                     <Grid key={s.name} item xs={12} sm={s.block ? 12 : 6}>
                                         {
-                                            s.type === 'boolean' ?
-                                            <FormControlLabel
-                                                control={<Switch color="primary" name={s.name} checked={user[s.name]} />}
-                                                label={s.label}
-                                                labelPlacement="start"
-                                            /> :
                                             <TextField
+                                                error= {Boolean(errors[s.name])}
+                                                helperText={errors[s.name]}
                                                 margin="normal"
                                                 required={s.required}
                                                 fullWidth
@@ -99,8 +136,8 @@ export default function Account() {
                                                 name={s.name}
                                                 type={s.type}
                                                 autoComplete={s.name}
-                                                value={user[s.name]}
-                                                onChange={ev => setUser({ ...user, [s.name]: ev.target.value })}
+                                                value={formData[s.name]}
+                                                onChange={handleChange}
                                             />
                                         }
                                     </Grid>
@@ -110,6 +147,7 @@ export default function Account() {
                         <Button
                             type="submit"
                             fullWidth
+                            disabled={!isFormValid}
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
