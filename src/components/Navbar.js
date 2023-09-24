@@ -16,6 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GeneralContext } from '../App';
 import { FormControlLabel, FormGroup } from '@mui/material';
 import { MaterialUISwitch } from './NavbarDarkMode';
+import HotelIcon from '@mui/icons-material/Hotel';
 
 export const RoleTypes = {
     none: 0,
@@ -29,6 +30,7 @@ export const checkPermissions = (permissions, userRoleType) => {
 }
 
 const pages = [
+    {route: '/', title: 'Home'},
     {route: '/about', title: 'About'},
     {route: '/login', title: 'Login', permissions: [RoleTypes.none]},
     {route: '/signup', title: 'Signup', permissions: [RoleTypes.none]},
@@ -81,7 +83,7 @@ export default function Navbar() {
         <AppBar position="static">
         <Container maxWidth="xl">
             <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <HotelIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
                 variant="h6"
                 noWrap
@@ -95,7 +97,7 @@ export default function Navbar() {
                 color: 'inherit',
                 textDecoration: 'none',
                 }}
-            > My Cards </Typography>
+            > Hotel Sharing </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                 size="large"
@@ -134,22 +136,7 @@ export default function Navbar() {
                 ))}
                 </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-            <Typography
-                variant="h5" noWrap component="a" href="/"
-                sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-                }}
-            >
-                My Cards
-            </Typography>
+            <HotelIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {pages.filter(p => !p.permissions || checkPermissions(p.permissions, userRolyType)).map(p => (
                     <Link key={p.route} to={p.route} style={{ textDecoration: 'none', color: 'white' }}>

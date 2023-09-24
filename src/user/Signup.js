@@ -83,7 +83,7 @@ export default function Signup() {
         .catch(err => {
             setOpen(true);
             setIsSuccess("error");
-            setSnackbarMassage("change me to english text");
+            setSnackbarMassage("The Email Is Taken");
             setLoader(false);
 
         });
