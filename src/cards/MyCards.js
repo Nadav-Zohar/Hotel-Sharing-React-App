@@ -25,7 +25,7 @@ export default function MyCards() {
     const CrudPermissionMyCards = [
         {
             ariaLabel: 'favorite',
-            onClick: (id) => "handleFavorite(id)",
+            onClick: (id) => handleFavorite(id),
             icon: <FavoriteIcon />,
         },
         {
@@ -44,6 +44,7 @@ export default function MyCards() {
     const { user, userRolyType, setLoader, setOpen, setIsSuccess, setSnackbarMassage } = React.useContext(GeneralContext);
     const navigate = useNavigate();
     const [allCards, setAllCards]= React.useState([])
+    const [favoriteStatus, setFavoriteStatus] = React.useState({});
     React.useEffect(() => {
         setLoader(true);
         fetch(`https://api.shipap.co.il/business/cards?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
@@ -69,6 +70,42 @@ export default function MyCards() {
             setSnackbarMassage("Card Deleted");
         })
         .finally(() => setLoader(false));
+    }
+    const handleFavorite= (item) => {
+        const cardId = item.id;
+        if (!favoriteStatus[cardId]) {
+            setLoader(true);
+            fetch(`https://api.shipap.co.il/cards/${cardId}/favorite?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
+                credentials: 'include',
+                method: 'PUT',
+            })
+                .then(() => {
+                    setFavoriteStatus((prevStatus) => ({
+                        ...prevStatus,
+                        [cardId]: true,
+                    }));
+                    setLoader(false);
+                    setOpen(true);
+                    setIsSuccess("success");
+                    setSnackbarMassage("Card Added To Favorite");
+                });
+        } else {
+            setLoader(true);
+            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
+                credentials: 'include',
+                method: 'PUT',
+            })
+                .then(() => {
+                    setFavoriteStatus((prevStatus) => ({
+                        ...prevStatus,
+                        [cardId]: false,
+                    }));
+                    setLoader(false);
+                    setOpen(true);
+                    setIsSuccess("success");
+                    setSnackbarMassage("Card Removed From Favorite");
+                });
+        }
     }
     return (
         <>
@@ -116,7 +153,11 @@ export default function MyCards() {
                                     aria-label={item.ariaLabel}
                                     onClick={() => item.onClick(c)}
                                 >
-                                    {item.icon}
+                                    {item.ariaLabel === 'favorite' ? (
+                                        <FavoriteIcon color={favoriteStatus[c.id] ? "error" : "inherit"} />
+                                    ) : (
+                                        item.icon
+                                    )}
                                 </IconButton>
                                 )
                                 ))
