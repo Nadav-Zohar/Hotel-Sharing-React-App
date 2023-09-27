@@ -19,11 +19,13 @@ export default function EditCard() {
     });
     const { cardID } = useParams();
     useEffect(() => {
+        setLoader(true);
         fetch(`https://api.shipap.co.il/cards/${cardID}?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
         })
         .then(res => res.json())
         .then(data => {
+            setLoader(false);
             const filterAndAssignDefaults = (data) => {
                 const allowedKeys = [
                     'title',
@@ -46,7 +48,7 @@ export default function EditCard() {
                     if (data[key] !== undefined) {
                         filteredData[key] = data[key];
                     } else {
-                        filteredData[key] = ''; // Assign empty string as default value
+                        filteredData[key] = '';
                     }
                 });
                 return filteredData;
@@ -108,6 +110,7 @@ export default function EditCard() {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
+        setLoader(true);
         fetch(`https://api.shipap.co.il/business/cards/${cardID}?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
             method: 'PUT',
@@ -115,6 +118,7 @@ export default function EditCard() {
             body: JSON.stringify(formData),
         })
         .then(() => {
+            setLoader(false);
             setOpen(true);
             setIsSuccess("success");
             setSnackbarMassage("Card Edited Successfuly");
@@ -168,7 +172,7 @@ export default function EditCard() {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Add Card
+                                    Edit Card
                                 </Button>
                     </Box>
                 </Box>
