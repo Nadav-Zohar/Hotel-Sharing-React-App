@@ -1,44 +1,62 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from 'react-router-dom';
-import Joi from 'joi';
-import { GeneralContext } from '../App';
+import { ThemeProvider } from "@emotion/react";
+import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography, createTheme } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { allTextFieldForAddCard } from "./AddCard";
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { GeneralContext } from "../App";
+import Joi from "joi";
 
-const defaultTheme = createTheme();
-
-export const allTextFieldForAddCard= [
-    {itemSm: 4, name: 'title', id: 'title', label: 'main title', autoFocus: true, fullWidth: true, type: "text", },
-    {itemSm: 4, name: 'subtitle', id: 'subtitle', label: 'sub title', autoFocus: false, fullWidth: true, type: "text", },
-    {itemSm: 4, name: 'phone', id: 'phone', label: 'phone', autoFocus: false, fullWidth: true, type: "number", },
-    {itemSm: 12, name: 'description', id: 'description', label: 'description', autoFocus: false, fullWidth: true, type: "text", },
-    {itemSm: 6, name: 'email', id: 'email', label: 'email', autoFocus: false, fullWidth: true, type: "email", },
-    {itemSm: 6, name: 'web', id: 'web', label: 'web url', autoFocus: false, fullWidth: true, type: "text", },
-    {itemSm: 12, name: 'imgUrl', id: 'imgUrl', label: 'img url', autoFocus: false, fullWidth: true, type: "text", },
-    {itemSm: 12, name: 'imgAlt', id: 'imgAlt', label: 'img alt', autoFocus: false, fullWidth: true, type: "text", },
-    {itemSm: 6, name: 'country', id: 'country', label: 'country', autoFocus: false, fullWidth: true, type: "text", },
-    {itemSm: 6, name: 'city', id: 'city', label: 'city', autoFocus: false, fullWidth: true, type: "text", },
-    {itemSm: 4, name: 'street', id: 'street', label: 'street', autoFocus: false, fullWidth: true, type: "text", },
-    {itemSm: 4, name: 'houseNumber', id: 'housenumber', label: 'business number', autoFocus: false, fullWidth: true, type: "number", },
-    {itemSm: 4, name: 'zip', id: 'zip', label: 'zip', autoFocus: false, fullWidth: true, type: "number", },
-    ]
-
-export default function AddCard() {
-    const {setLoader, setOpen, setIsSuccess, setSnackbarMassage, mode } = React.useContext(GeneralContext);
+export default function EditCard() {
+    const {setLoader, setOpen, setIsSuccess, setSnackbarMassage, mode } = useContext(GeneralContext);
+    const [isFormValid,setIsFormValid]= useState(false);
+    const [errors, setErrors]=  useState({});
+    const navigate = useNavigate();
     const theme = createTheme({
         palette: {
             mode: mode,
         },
     });
-    const [formData, setFormData]= React.useState({
+    const { cardID } = useParams();
+    useEffect(() => {
+        fetch(`https://api.shipap.co.il/cards/${cardID}?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
+            credentials: 'include',
+        })
+        .then(res => res.json())
+        .then(data => {
+            const filterAndAssignDefaults = (data) => {
+                const allowedKeys = [
+                    'title',
+                    'description',
+                    'subtitle',
+                    'phone',
+                    'email',
+                    'web',
+                    'imgUrl',
+                    'imgAlt',
+                    'state',
+                    'country',
+                    'city',
+                    'street',
+                    'houseNumber',
+                    'zip',
+                ];
+                const filteredData = {};
+                allowedKeys.forEach((key) => {
+                    if (data[key] !== undefined) {
+                        filteredData[key] = data[key];
+                    } else {
+                        filteredData[key] = ''; // Assign empty string as default value
+                    }
+                });
+                return filteredData;
+            };
+            const filteredFormData = filterAndAssignDefaults(data);
+            setFormData(filteredFormData);
+        });
+    }, [cardID]);
+    
+    const [formData, setFormData] = useState({
         title: '',
         description: '',
         subtitle: '',
@@ -51,12 +69,9 @@ export default function AddCard() {
         country: '',
         city: '',
         street: '',
-        houseNumber:'',
+        houseNumber: '',
         zip: ''
-    })
-    const [isFormValid,setIsFormValid]= React.useState(false);
-    const [errors, setErrors]=  React.useState({});
-    const navigate = useNavigate();
+    });
     const schema = Joi.object({
         title: Joi.string().min(2).max(20).required(),
         description: Joi.string().min(2).max(100).required(),
@@ -73,7 +88,6 @@ export default function AddCard() {
         houseNumber: Joi.string().min(1).max(20).required(),
         zip: Joi.string().min(5).max(10).required(),
     });
-
     const handleChange = ev => {
         const {name, value}= ev.target;
         const obj ={...formData, [name]: value}
@@ -94,26 +108,24 @@ export default function AddCard() {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        setLoader(true);
-        fetch(`https://api.shipap.co.il/business/cards?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
+        fetch(`https://api.shipap.co.il/business/cards/${cardID}?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
-            method: 'POST',
+            method: 'PUT',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify(formData),
         })
-        .then(res => res.json())
-        .then(data => {
-            setLoader(false);
+        .then(() => {
             setOpen(true);
             setIsSuccess("success");
-            setSnackbarMassage("Card Added Successfuly");
-            navigate("/my-cards");
+            setSnackbarMassage("Card Edited Successfuly");
+            navigate("/");
         });
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+        <>
+            <ThemeProvider theme={theme}>
+            <Container   component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box sx={{
                         marginTop: 8,
@@ -123,10 +135,10 @@ export default function AddCard() {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <AddIcon />
+                        <ModeEditIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Add New Card
+                        Edit Your Card
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
@@ -143,7 +155,7 @@ export default function AddCard() {
                                     onChange={handleChange}
                                     error= {Boolean(errors[t.name])}
                                     helperText= {errors[t.name]}
-                                    value= {formData.name}
+                                    value= {formData[t.name]}
                                     />
                                 </Grid>
                             )
@@ -162,5 +174,6 @@ export default function AddCard() {
                 </Box>
             </Container>
         </ThemeProvider>
-    );
+        </>
+    )
 }

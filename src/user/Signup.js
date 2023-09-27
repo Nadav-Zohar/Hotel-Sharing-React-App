@@ -29,9 +29,19 @@ export default function Signup() {
     const navigate = useNavigate();
     const [errors, setErrors]=  React.useState({});
     const schema = Joi.object({
-        firstName: Joi.string().min(3).max(30).required(), lastName: Joi.string().min(3).max(30).required(), email: Joi.string().email({ tlds: false }).required(), password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required().messages({
+        firstName: Joi.string().min(3).max(30).required(),
+        lastName: Joi.string().min(3).max(30).required(), 
+        email: Joi.string().email({ tlds: false }).required(), 
+        password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@%$#^&*\-_*]).{8,32}$/).required().messages({
             "string.pattern.base": "Please ensure your password contains 8 characters, including at least one uppercase letter, one lowercase letter, and one of the following symbols: ! @ # $ % ^ & * - _ for enhanced security. Thank you",
-            "any.required": "Password is required",}), middleName: Joi.string().min(3).max(30).required(), phone: Joi.string().min(10).max(15).required(), country: Joi.string().min(3).max(50).required(), city: Joi.string().min(3).max(50).required(), street: Joi.string().min(5).max(100).required(), houseNumber: Joi.string().min(1).max(20).required(), zip: Joi.string().min(5).max(10).required(),
+            "any.required": "Password is required",}), 
+        middleName: Joi.string().min(3).max(30).required(), 
+        phone: Joi.string().min(10).max(15).required(), 
+        country: Joi.string().min(3).max(50).required(), 
+        city: Joi.string().min(3).max(50).required(), 
+        street: Joi.string().min(5).max(100).required(), 
+        houseNumber: Joi.string().min(1).max(20).required(), 
+        zip: Joi.string().min(5).max(10).required(),
         });
         const handleChange = ev => {
             const {name, value}= ev.target;

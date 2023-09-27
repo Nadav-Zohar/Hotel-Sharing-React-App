@@ -25,6 +25,8 @@ useEffect(() => {
 }, [])
     return (
         <>
+        <Typography variant="h2" mt={3} color="text.primary" textAlign={"center"}>Welcome To - Hotel Sharing</Typography>
+        <Typography variant="h4" mt={3} color="text.secondary" textAlign={"center"}>here you can share your hotel with others, and see others recomendation of hotels.</Typography>
             <Container sx={{ py: 8 }} maxWidth="md">
                 <Grid container spacing={4}>
                 {
@@ -35,10 +37,10 @@ useEffect(() => {
                                 <CardHeader
                                     avatar={
                                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                            {user ? user.fullName[0] : ""}
+                                            {c.userName ? c.userName[0] : ""}
                                         </Avatar>
                                     }
-                                    title={user ? user.fullName : ""}
+                                    title={c.userName}
                                     subheader={c.createdTime}
                                 />
                                 <Typography variant='h4' color="text.main">{c.title}</Typography>

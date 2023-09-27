@@ -9,6 +9,7 @@ import About from './pages/About';
 import UsersMenagement from './admin/UsersManagement';
 import AddCard from './cards/AddCard';
 import CardPage from './cards/CardPage';
+import EditCard from './cards/EditCard';
 
 export default function Router() {
     return (
@@ -22,7 +23,8 @@ export default function Router() {
             <Route path='/about' element={<About />}></Route>
             <Route path='/admin' element={<UsersMenagement />}></Route>
             <Route path='/add-card' element={<AddCard />}></Route>
-            <Route path='/card-page/:id' element={<CardPage />}></Route>
+            <Route path='/card-page/:cardID' element={<CardPage />}></Route>
+            <Route path='/edit-card/:cardID' element={<EditCard />}></Route>
         </Routes>
         )
 }

@@ -25,7 +25,7 @@ export default function MyCards() {
     const CrudPermissionMyCards = [
         {
             ariaLabel: 'favorite',
-            onClick: (id) => handleFavorite(id),
+            onClick: (id) => "handleFavorite(id)",
             icon: <FavoriteIcon />,
         },
         {
@@ -36,7 +36,7 @@ export default function MyCards() {
         },
         {
             ariaLabel: 'edit',
-            onClick: (id) => "handleEdit(id)",
+            onClick: (id) => handleEdit(id),
             icon: <ModeEditIcon />,
             permissions: [RoleTypes.business, RoleTypes.admin],
         },
@@ -44,7 +44,6 @@ export default function MyCards() {
     const { user, userRolyType, setLoader, setOpen, setIsSuccess, setSnackbarMassage } = React.useContext(GeneralContext);
     const navigate = useNavigate();
     const [allCards, setAllCards]= React.useState([])
-    const [favoriteStatus, setFavoriteStatus] = React.useState({});
     React.useEffect(() => {
         setLoader(true);
         fetch(`https://api.shipap.co.il/business/cards?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
@@ -57,6 +56,9 @@ export default function MyCards() {
         .finally(() => setLoader(false));
     }, [])
 
+    const handleEdit= (item) => {
+        navigate(`/edit-card/${item.id}`);
+    }
     const handleDelete= (item) =>{
         setLoader(true);
         fetch(`https://api.shipap.co.il/business/cards/${item.id}?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
@@ -71,42 +73,9 @@ export default function MyCards() {
         })
         .finally(() => setLoader(false));
     }
-    const handleFavorite= (item) => {
-        const cardId = item.id;
-        if (!favoriteStatus[cardId]) {
-            setLoader(true);
-            fetch(`https://api.shipap.co.il/cards/${cardId}/favorite?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    setFavoriteStatus((prevStatus) => ({
-                        ...prevStatus,
-                        [cardId]: true,
-                    }));
-                    setLoader(false);
-                    setOpen(true);
-                    setIsSuccess("success");
-                    setSnackbarMassage("Card Added To Favorite");
-                });
-        } else {
-            setLoader(true);
-            fetch(`https://api.shipap.co.il/cards/${cardId}/unfavorite?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
-                credentials: 'include',
-                method: 'PUT',
-            })
-                .then(() => {
-                    setFavoriteStatus((prevStatus) => ({
-                        ...prevStatus,
-                        [cardId]: false,
-                    }));
-                    setLoader(false);
-                    setOpen(true);
-                    setIsSuccess("success");
-                    setSnackbarMassage("Card Removed From Favorite");
-                });
-        }
-    }
+    // const handleFavorite= (item) => {
+
+    // }
     return (
         <>
             <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} position='fixed' top={"100px"} right={"50px"} >
@@ -146,21 +115,17 @@ export default function MyCards() {
                             </CardActionArea>
                             <CardActions disableSpacing>
                                 {
-                                CrudPermissionMyCards.map((item) => (
-                                (!item.permissions || checkPermissions(item.permissions, userRolyType)) && (
-                                <IconButton
-                                    key={item.ariaLabel}
-                                    aria-label={item.ariaLabel}
-                                    onClick={() => item.onClick(c)}
-                                >
-                                    {item.ariaLabel === 'favorite' ? (
-                                        <FavoriteIcon color={favoriteStatus[c.id] ? "error" : "inherit"} />
-                                    ) : (
-                                        item.icon
-                                    )}
-                                </IconButton>
-                                )
-                                ))
+                                    CrudPermissionMyCards.map((item) => (
+                                        (!item.permissions || checkPermissions(item.permissions, userRolyType)) && (
+                                            <IconButton
+                                                key={item.ariaLabel}
+                                                aria-label={item.ariaLabel}
+                                                onClick={() => item.onClick(c)}
+                                            >
+                                                {item.icon}
+                                            </IconButton>
+                                        )
+                                    ))
                                 }
                             </CardActions>
                         </Card>

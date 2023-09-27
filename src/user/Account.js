@@ -48,7 +48,16 @@ export default function Account() {
         
     }, [user])
     const schema = Joi.object({
-        firstName: Joi.string().min(3).max(30).required(), lastName: Joi.string().min(3).max(30).required(), email: Joi.string().email({ tlds: false }).required(), middleName: Joi.string().min(3).max(30).required(), phone: Joi.string().min(10).max(15).required(), country: Joi.string().min(3).max(50).required(), city: Joi.string().min(3).max(50).required(), street: Joi.string().min(5).max(100).required(), houseNumber: Joi.string().min(1).max(20).required(), zip: Joi.string().min(5).max(10).required(),
+        firstName: Joi.string().min(3).max(30).required(), 
+        lastName: Joi.string().min(3).max(30).required(), 
+        email: Joi.string().email({ tlds: false }).required(), 
+        middleName: Joi.string().min(3).max(30).required(), 
+        phone: Joi.string().min(10).max(15).required(), 
+        country: Joi.string().min(3).max(50).required(), 
+        city: Joi.string().min(3).max(50).required(), 
+        street: Joi.string().min(5).max(100).required(), 
+        houseNumber: Joi.string().min(1).max(20).required(), 
+        zip: Joi.string().min(5).max(10).required(),
         });
     const [isFormValid,setIsFormValid]= React.useState(false);
     const [errors, setErrors]=  React.useState({});
