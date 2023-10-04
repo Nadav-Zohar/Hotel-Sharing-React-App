@@ -6,7 +6,7 @@ export default function CardPage() {
     const { cardID } = useParams();
     const [theCard, setTheCard]= useState({});
     useEffect(() => {
-        fetch(`https://api.shipap.co.il/cards/${cardID}?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
+        fetch(`https://api.shipap.co.il/cards/${cardID}?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
         })
         .then(res => res.json())
@@ -20,7 +20,7 @@ export default function CardPage() {
         <Container sx={{ py: 8 }} maxWidth="lg">
             <Grid container spacing={4}>
                 <Grid item xs={12} sm={12} md={12}>
-                    <Card sx={{ maxWidth: 2000 }}>
+                    <Card sx={{ maxWidth: "100%" }}>
                         <CardHeader
                             avatar={
                                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -33,7 +33,7 @@ export default function CardPage() {
                         <Typography variant='h3' mb={5} textAlign={'center'} color="text.main">{theCard.title}</Typography>
                         <CardMedia
                             component="img"
-                            height="600"
+                            height="100%"
                             image={theCard.imgUrl}
                             alt={theCard.imgAlt}
                         />

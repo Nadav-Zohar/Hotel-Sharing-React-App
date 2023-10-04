@@ -26,7 +26,7 @@ export default function UsersMenagement() {
     const handleDeleteClient = (clientId) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this client?');
         if(isConfirmed){
-            fetch(`https://api.shipap.co.il/admin/clients/${clientId}?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
+            fetch(`https://api.shipap.co.il/admin/clients/${clientId}?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
                 credentials: 'include',
                 method: 'DELETE',
             })
@@ -36,20 +36,35 @@ export default function UsersMenagement() {
             });
         }
     };
+    
     const handleUpdateClient = (clientId, index) => {
+        const clickedClient = allClient.find(client => client.id === clientId);
+        clickedClient.business= !clickedClient.business;
+        fetch(`https://api.shipap.co.il/admin/clients/${clientId}?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
+            credentials: 'include',
+            method: 'PUT',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(clickedClient),
+        })
+        .then(() => {
+            setAllClient([...allClient]);
+        });
+
+
         setIsBusinessIconClicked(prevState => ({
             ...prevState,
             [clientId]: !prevState[clientId],
         }));
     };
     useEffect(() => {
-        fetch(`https://api.shipap.co.il/admin/clients?token=47d94128-56e0-11ee-aae9-14dda9d4a5f0`, {
+        fetch(`https://api.shipap.co.il/admin/clients?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
         })
         .then(res => res.json())
         .then(data => {
             setAllClient(data);
             setIsBusinessIconClicked(Array(data.length).fill(false));
+            console.log(data);
         });
     }, [])
     const columns = [
