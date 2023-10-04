@@ -26,7 +26,7 @@ export default function UsersMenagement() {
     const handleDeleteClient = (clientId) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this client?');
         if(isConfirmed){
-            fetch(`https://api.shipap.co.il/admin/clients/${clientId}?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
+            fetch(`https://api.shipap.co.il/admin/clients/${clientId}?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
                 credentials: 'include',
                 method: 'DELETE',
             })
@@ -40,7 +40,7 @@ export default function UsersMenagement() {
     const handleUpdateClient = (clientId, index) => {
         const clickedClient = allClient.find(client => client.id === clientId);
         clickedClient.business= !clickedClient.business;
-        fetch(`https://api.shipap.co.il/admin/clients/${clientId}?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
+        fetch(`https://api.shipap.co.il/admin/clients/${clientId}?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
             method: 'PUT',
             headers: {'Content-type': 'application/json'},
@@ -57,7 +57,7 @@ export default function UsersMenagement() {
         }));
     };
     useEffect(() => {
-        fetch(`https://api.shipap.co.il/admin/clients?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
+        fetch(`https://api.shipap.co.il/admin/clients?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
         })
         .then(res => res.json())
@@ -68,15 +68,15 @@ export default function UsersMenagement() {
         });
     }, [])
     const columns = [
-        { field: 'id', headerName: 'ID', width: 45 },
+        { field: 'id', headerName: 'ID', width: 70 },
         { field: 'firstName', headerName: 'First name', width: 100 },
         { field: 'lastName', headerName: 'Last name', width: 100 },
         {
-            field: 'fullName', headerName: 'Full name', description: 'This column has a value getter and is not sortable.', sortable: false, width: 160, valueGetter: (params) =>
+            field: 'fullName', headerName: 'Full name', description: 'This column has a value getter and is not sortable.', sortable: false, width: 140, valueGetter: (params) =>
             `${params.row.firstName || ''} ${params.row.lastName || ''}`,
         },
         { field: 'phone', headerName: 'Phone', width: 140,},
-        { field: 'email', headerName: 'Email', width: 140 },
+        { field: 'email', headerName: 'Email', width: 280 },
         { field: 'business', headerName: 'Business', width: 100 },
         { field: 'actions', headerName: 'Actions', width: 200,
             renderCell: (params) => (

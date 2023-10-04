@@ -46,7 +46,7 @@ export default function MyCards() {
     const [allCards, setAllCards]= React.useState([])
     React.useEffect(() => {
         setLoader(true);
-        fetch(`https://api.shipap.co.il/business/cards?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
+        fetch(`https://api.shipap.co.il/business/cards?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
         })
         .then(res => res.json())
@@ -61,7 +61,7 @@ export default function MyCards() {
     }
     const handleDelete= (item) =>{
         setLoader(true);
-        fetch(`https://api.shipap.co.il/business/cards/${item.id}?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
+        fetch(`https://api.shipap.co.il/business/cards/${item.id}?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
             method: 'DELETE',
         })

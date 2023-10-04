@@ -95,7 +95,7 @@ export default function AddCard() {
     const handleSubmit = (event) => {
         event.preventDefault();
         setLoader(true);
-        fetch(`https://api.shipap.co.il/business/cards?token=6d090b94-5d5c-11ee-aae9-14dda9d4a5f0`, {
+        fetch(`https://api.shipap.co.il/business/cards?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
             method: 'POST',
             headers: {'Content-type': 'application/json'},
