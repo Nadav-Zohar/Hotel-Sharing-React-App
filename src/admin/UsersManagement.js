@@ -64,7 +64,6 @@ export default function UsersMenagement() {
         .then(data => {
             setAllClient(data);
             setIsBusinessIconClicked(Array(data.length).fill(false));
-            console.log(data);
         });
     }, [])
     const columns = [
