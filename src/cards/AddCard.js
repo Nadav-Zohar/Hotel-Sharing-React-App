@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Joi from 'joi';
 import { GeneralContext } from '../App';
 
@@ -157,6 +157,13 @@ export default function AddCard() {
                                     Add Card
                                 </Button>
                     </Box>
+                    <Grid container justifyContent="center">
+                            <Grid item>
+                                <Link to={"/"} variant="body2">
+                                Go Back
+                                </Link>
+                            </Grid>
+                        </Grid>
                 </Box>
             </Container>
         </ThemeProvider>

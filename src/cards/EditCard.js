@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography, createTheme } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { allTextFieldForAddCard } from "./AddCard";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { GeneralContext } from "../App";
@@ -175,6 +175,13 @@ export default function EditCard() {
                                     Edit Card
                                 </Button>
                     </Box>
+                    <Grid container justifyContent="center">
+                            <Grid item>
+                                <Link to={"/"} variant="body2">
+                                Go Back
+                                </Link>
+                            </Grid>
+                        </Grid>
                 </Box>
             </Container>
         </ThemeProvider>

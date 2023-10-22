@@ -61,18 +61,21 @@ export default function MyCards() {
         navigate(`/edit-card/${item.id}`);
     }
     const handleDelete= (item) =>{
-        setLoader(true);
-        fetch(`https://api.shipap.co.il/business/cards/${item.id}?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
-            credentials: 'include',
-            method: 'DELETE',
-        })
-        .then(() => {
-            setAllCards((prevCards) => prevCards.filter((card) => card.id !== item.id));
-            setOpen(true);
-            setIsSuccess("success");
-            setSnackbarMassage("Card Deleted");
-        })
-        .finally(() => setLoader(false));
+        const isConfirmed = window.confirm('Are you sure you want to delete this card?');
+        if(isConfirmed){
+                setLoader(true);
+                fetch(`https://api.shipap.co.il/business/cards/${item.id}?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
+                credentials: 'include',
+                method: 'DELETE',
+            })
+            .then(() => {
+                setAllCards((prevCards) => prevCards.filter((card) => card.id !== item.id));
+                setOpen(true);
+                setIsSuccess("success");
+                setSnackbarMassage("Card Deleted");
+            })
+            .finally(() => setLoader(false));
+        }
     }
     const handleFavorite= (item) => {
         if(item.favorite === true){

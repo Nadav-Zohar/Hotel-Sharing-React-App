@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React, { useContext, useEffect } from 'react';
 import { GeneralContext } from '../App';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -15,7 +15,8 @@ import Joi from 'joi';
 
 
 export default function Account() {
-    const { user, setLoader, mode } = useContext(GeneralContext);
+    const navigate = useNavigate();
+    const { user, setLoader, mode, setOpen, setIsSuccess, setSnackbarMassage} = useContext(GeneralContext);
 
     const theme = createTheme({
         palette: {
@@ -98,7 +99,6 @@ export default function Account() {
         });
 
         setLoader(true);
-    
         fetch(`https://api.shipap.co.il/clients/update?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
             method: 'PUT',
@@ -106,7 +106,11 @@ export default function Account() {
             body: JSON.stringify(obj),
         })
         .then(() => {
+            setOpen(true);
+            setIsSuccess("success");
+            setSnackbarMassage("Account Edited, Reload Is Required");
             setLoader(false);
+            navigate("/")
         });
     };
 
@@ -164,7 +168,7 @@ export default function Account() {
                         </Button>
                         <Grid container justifyContent="center">
                             <Grid item>
-                                <Link to={"/about"} variant="body2">
+                                <Link to={"/"} variant="body2">
                                 Go Back
                                 </Link>
                             </Grid>
