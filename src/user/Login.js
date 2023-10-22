@@ -76,13 +76,12 @@ export default function Login() {
                 password: data.get("password"),
             }),
         })
-        .then(res => {
+        .then(async res => {
             if (res.ok) {
                 return res.json();
             } else {
-                return res.text().then(x => {
-                    throw new Error(x);
-                });
+                const x = await res.text();
+                throw new Error(x);
             }
         })
         .then(data => {

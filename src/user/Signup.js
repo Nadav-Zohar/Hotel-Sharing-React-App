@@ -74,13 +74,12 @@ export default function Signup() {
                 firstName: data.get("firstName"), middleName: data.get("middleName"), lastName: data.get("lastName"), phone: data.get("phone"), email: data.get("email"), password: data.get("password"), imgUrl: "", imgAlt: "", state: "", country: data.get("country"), city: data.get("city"), street: data.get("street"), houseNumber: data.get("houseNumber"), zip: data.get("zip"), business: businessCheck,
             }),
         })
-        .then(res => {
+        .then(async res => {
             if (res.ok) {
                 return res.json();
             } else {
-                return res.text().then(x => {
-                    throw new Error(x);
-                });
+                const x = await res.text();
+                throw new Error(x);
             }
         })
         .then(data => {
