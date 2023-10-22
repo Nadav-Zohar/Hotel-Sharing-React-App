@@ -1,8 +1,7 @@
 import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Container, Grid, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react'
-import { AiOutlineRight } from 'react-icons/ai';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 export default function CardPage() {
     const { cardID } = useParams();
     const [theCard, setTheCard]= useState({});

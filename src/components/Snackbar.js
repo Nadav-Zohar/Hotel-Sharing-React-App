@@ -22,7 +22,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
             <Alert onClose={handleClose} severity={isSuccess} sx={{ width: '100%' }}>
             {snackbarMassage}
             </Alert>

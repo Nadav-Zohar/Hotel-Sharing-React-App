@@ -19,13 +19,16 @@ import { RoleTypes } from '../components/Navbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { useTheme } from '@emotion/react';
 
 
 export default function MyCards() {
+    const theme = useTheme();
+    const [updateAllCards, setUpdateAllCards]= React.useState(undefined);
     const CrudPermissionMyCards = [
         {
             ariaLabel: 'favorite',
-            onClick: (id) => "handleFavorite(id)",
+            onClick: (id) => handleFavorite(id),
             icon: <FavoriteIcon />,
         },
         {
@@ -54,7 +57,7 @@ export default function MyCards() {
             setAllCards(data);
         })
         .finally(() => setLoader(false));
-    }, [])
+    }, [updateAllCards])
 
     const handleEdit= (item) => {
         navigate(`/edit-card/${item.id}`);
@@ -73,17 +76,47 @@ export default function MyCards() {
         })
         .finally(() => setLoader(false));
     }
-    // const handleFavorite= (item) => {
-
-    // }
+    const handleFavorite= (item) => {
+        if(item.favorite === true){
+            setLoader(true);
+            fetch(`https://api.shipap.co.il/cards/${item.id}/unfavorite?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
+                credentials: 'include',
+                method: 'PUT',
+            })
+            .then(() => {
+                setUpdateAllCards(Math.random);
+                setOpen(true);
+                setIsSuccess("success");
+                setSnackbarMassage("Card Removed From Favorite");
+                setLoader(false);
+            });
+        }else {
+            setLoader(true);
+            fetch(`https://api.shipap.co.il/cards/${item.id}/favorite?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
+                credentials: 'include',
+                method: 'PUT',
+            })
+            .then(() => {
+                setUpdateAllCards(Math.random);
+                setOpen(true);
+                setIsSuccess("success");
+                setSnackbarMassage("Card Added To Favorite");
+                setLoader(false);
+            });
+        }
+    }
     return (
         <>
+        <Typography variant="h2" mt={3} color="text.primary" textAlign={"center"}>Your Cards Page</Typography>
+        <Typography variant="h4" mt={3} color="text.secondary" textAlign={"center"}>Here is your cards!</Typography>
+        <hr />
             <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} position='fixed' top={"100px"} right={"50px"} >
                 <Button onClick={() => navigate("/add-card")} variant="contained" endIcon={<AddIcon />}>
                     Add Card
                 </Button>
             </Stack>
             <Container sx={{ py: 8 }} maxWidth="md">
+                <hr />
                 <Grid container spacing={4}>
                 {
                 allCards.map((c) => 
@@ -122,7 +155,6 @@ export default function MyCards() {
                                                 aria-label={item.ariaLabel}
                                                 onClick={() => item.onClick(c)}
                                             >
-                                                
                                                 {item.icon}
                                             </IconButton>
                                         )
