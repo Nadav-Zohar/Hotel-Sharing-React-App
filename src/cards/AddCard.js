@@ -28,7 +28,6 @@ export const allTextFieldForAddCard= [
     {itemSm: 4, name: 'houseNumber', id: 'housenumber', label: 'business number', autoFocus: false, fullWidth: true, type: "number", },
     {itemSm: 4, name: 'zip', id: 'zip', label: 'zip', autoFocus: false, fullWidth: true, type: "number", },
     ]
-
 export default function AddCard() {
     const {setLoader, setOpen, setIsSuccess, setSnackbarMassage, mode } = React.useContext(GeneralContext);
     const theme = createTheme({
@@ -71,19 +70,16 @@ export default function AddCard() {
         houseNumber: Joi.string().min(1).max(20).required(),
         zip: Joi.string().min(5).max(10).required(),
     });
-
     const handleChange = ev => {
         const {name, value}= ev.target;
         const obj ={...formData, [name]: value}
         setFormData(obj);
-
         const validate= schema.validate(obj, {abortEarly: false})
         const errors= {};
         if(validate.error){
             validate.error.details.forEach(e => {
                 const key= e.context.key;
                 const err= e.message;
-
                 errors[key]= err;
             })
         }
@@ -108,7 +104,6 @@ export default function AddCard() {
             navigate("/my-cards");
         });
     };
-
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">

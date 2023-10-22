@@ -5,8 +5,6 @@ import { GeneralContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useTheme } from "@emotion/react";
-
-
 export default function FavCards() {
     const theme = useTheme();
     const [updateFavCards, setUpdateFavCards]= useState(undefined);

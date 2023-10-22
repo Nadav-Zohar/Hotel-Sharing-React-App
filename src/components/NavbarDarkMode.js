@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Switch } from "@mui/material";
-
 export const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
     height: 34,

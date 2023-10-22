@@ -11,34 +11,27 @@ import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import { RoleTypes, checkPermissions } from './Navbar';
 import { GeneralContext } from '../App';
-
 const icons = [
     {route: '/about', 
     title: 'About',
     icon: <InfoOutlinedIcon />},
-    
     {route: '/favorite', 
     title: 'Favorites',
     icon: <FavoriteIcon />,
     permissions: [RoleTypes.user, RoleTypes.business, RoleTypes.admin]},
-    
     {route: '/my-cards', 
     title: 'My Cards',
     icon: <CreditCardOutlinedIcon />,
     permissions: [RoleTypes.business, RoleTypes.admin]},
-    
     {route: '/admin', 
     title: "User's management",
     icon: <ManageAccountsOutlinedIcon />,
     permissions: [RoleTypes.admin]},
 ];
-
 export default function FixedBottomNavigation() {
     const [value, setValue] = React.useState(0);
     const { userRolyType } = React.useContext(GeneralContext);
-
     const ref = React.useRef(null);
-
     return (
         <Box sx={{ pb: 7 }} ref={ref}>
             <CssBaseline />

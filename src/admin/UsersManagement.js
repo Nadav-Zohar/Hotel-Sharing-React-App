@@ -3,8 +3,6 @@ import { useEffect, useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import './UsersManagement.css';
-
-
 function RowActions({ clientId, isBusinessIconClicked, handleDeleteClient, handleUpdateClient }) {
     return (
         <>
@@ -19,7 +17,6 @@ function RowActions({ clientId, isBusinessIconClicked, handleDeleteClient, handl
         </>
     );
 }
-
 export default function UsersMenagement() {
     const [allClient, setAllClient]= useState([]);
     const [isBusinessIconClicked, setIsBusinessIconClicked] = useState({});
@@ -36,7 +33,6 @@ export default function UsersMenagement() {
             });
         }
     };
-    
     const handleUpdateClient = (clientId, index) => {
         const clickedClient = allClient.find(client => client.id === clientId);
         clickedClient.business= !clickedClient.business;
@@ -49,8 +45,6 @@ export default function UsersMenagement() {
         .then(() => {
             setAllClient([...allClient]);
         });
-
-
         setIsBusinessIconClicked(prevState => ({
             ...prevState,
             [clientId]: !prevState[clientId],

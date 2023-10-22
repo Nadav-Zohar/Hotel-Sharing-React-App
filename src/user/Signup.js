@@ -49,7 +49,6 @@ export default function Signup() {
             setFormData(obj);
             const validate= schema.validate(obj, {abortEarly: false})
             const errors= {};
-    
             if(validate.error){
                 validate.error.details.forEach(e => {
                     const key= e.context.key;
@@ -64,7 +63,6 @@ export default function Signup() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let businessCheck= document.getElementById("business").checked;
-        
         setLoader(true);
         fetch(`https://api.shipap.co.il/clients/signup?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
@@ -94,7 +92,6 @@ export default function Signup() {
             setIsSuccess("error");
             setSnackbarMassage("The Email Is Taken");
             setLoader(false);
-
         });
         };
     return (

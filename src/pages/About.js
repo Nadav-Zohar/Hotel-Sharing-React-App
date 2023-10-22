@@ -6,7 +6,6 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import "./About.css";
-
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
     ))(({ theme }) => ({
@@ -18,7 +17,6 @@ const Accordion = styled((props) => (
         display: 'none',
     },
     }));
-
     const AccordionSummary = styled((props) => (
     <MuiAccordionSummary
         expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
@@ -37,19 +35,15 @@ const Accordion = styled((props) => (
         marginLeft: theme.spacing(1),
     },
     }));
-
     const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
     padding: theme.spacing(2),
     borderTop: '1px solid rgba(0, 0, 0, .125)',
     }));
-
     export default function CustomizedAccordions() {
     const [expanded, setExpanded] = React.useState('panel1');
-
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
-
     return (
         < >
             <div className="about-header">

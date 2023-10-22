@@ -4,10 +4,6 @@ import { red } from '@mui/material/colors';
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../App";
 import { useNavigate } from "react-router-dom";
-
-
-
-
 export default function Cards() {
     const { user, setLoader, setOpen, setIsSuccess, setSnackbarMassage } = useContext(GeneralContext);
     const [updateAllCards, setUpdateAllCards]= useState(undefined);
@@ -42,7 +38,6 @@ export default function Cards() {
             });
         }
     }
-
     useEffect(() => {
         fetch(`https://api.shipap.co.il/cards?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',

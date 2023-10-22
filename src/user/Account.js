@@ -12,18 +12,14 @@ import React, { useContext, useEffect } from 'react';
 import { GeneralContext } from '../App';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Joi from 'joi';
-
-
 export default function Account() {
     const navigate = useNavigate();
     const { user, setLoader, mode, setOpen, setIsSuccess, setSnackbarMassage} = useContext(GeneralContext);
-
     const theme = createTheme({
         palette: {
             mode: mode,
         },
     });
-    
     const clientStructure = [
         { name: 'firstName', type: 'text', label: 'First Name', required: true, block: true },
         { name: 'middleName', type: 'text', label: 'Middle Name', required: false, block: false },
@@ -36,14 +32,22 @@ export default function Account() {
         { name: 'houseNumber', type: 'number', label: 'House Number', required: false, block: false },
         { name: 'zip', type: 'number', label: 'Zip', required: false, block: true },
     ];
-    
     const [formData, setFormData]= React.useState({
         firstName:"", lastName: "", email: "", middleName: "", phone: "", country: "", city: "", street: "", houseNumber: "", zip: "",
     })
     useEffect(() => {
         if (user){
             setFormData({
-                firstName:user.firstName || "", lastName:user.lastName || "", email:user.email || "", middleName:user.middleName || "", phone:user.phone || "", country:user.country || "", city:user.city || "", street:user.street || "", houseNumber:String(user.houseNumber) || "", zip:String(user.zip) || "",
+                firstName:user.firstName || "",
+                lastName:user.lastName || "",
+                email:user.email || "",
+                middleName:user.middleName || "",
+                phone:user.phone || "",
+                country:user.country || "",
+                city:user.city || "",
+                street:user.street || "",
+                houseNumber:String(user.houseNumber) || "",
+                zip:String(user.zip) || "",
             })
         }
         
@@ -62,17 +66,14 @@ export default function Account() {
         });
     const [isFormValid,setIsFormValid]= React.useState(false);
     const [errors, setErrors]=  React.useState({});
-
     const handleChange = (ev) => {
         const { name, value } = ev.target;
             setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: value,
             }));
-        
             const validate = schema.validate({ ...formData, [name]: value }, { abortEarly: false });
             const newErrors = {};
-        
             if (validate.error) {
             validate.error.details.forEach((e) => {
                 const key = e.context.key;
@@ -83,13 +84,10 @@ export default function Account() {
             setIsFormValid(!validate.error);
             setErrors(newErrors);
         };
-        
-
     const handleSubmit = ev => {
         ev.preventDefault();
         const obj = {};
         const elements = ev.target.elements;
-        
         clientStructure.forEach(s => {
             if (s.type === 'boolean') {
                 obj[s.name] = elements[s.name].checked;
@@ -97,7 +95,6 @@ export default function Account() {
                 obj[s.name] = elements[s.name].value;
             }
         });
-
         setLoader(true);
         fetch(`https://api.shipap.co.il/clients/update?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
             credentials: 'include',
@@ -113,7 +110,6 @@ export default function Account() {
             navigate("/")
         });
     };
-
     return (
         <ThemeProvider theme={theme}>
             {

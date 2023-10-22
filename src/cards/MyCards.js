@@ -19,8 +19,6 @@ import { RoleTypes } from '../components/Navbar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-
-
 export default function MyCards() {
     const [updateAllCards, setUpdateAllCards]= React.useState(undefined);
     const CrudPermissionMyCards = [
@@ -56,7 +54,6 @@ export default function MyCards() {
         })
         .finally(() => setLoader(false));
     }, [setLoader, updateAllCards])
-
     const handleEdit= (item) => {
         navigate(`/edit-card/${item.id}`);
     }
