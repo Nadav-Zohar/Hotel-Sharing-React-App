@@ -56,7 +56,7 @@ export default function EditCard() {
             const filteredFormData = filterAndAssignDefaults(data);
             setFormData(filteredFormData);
         });
-    }, [cardID]);
+    }, [cardID, setLoader]);
     
     const [formData, setFormData] = useState({
         title: '',

@@ -14,7 +14,7 @@ export default function CardPage() {
         .then(data => {
             setTheCard(data);
         });
-    }, [])
+    }, [cardID])
     return (
         <>
         <Container sx={{ py: 8 }} maxWidth="lg">

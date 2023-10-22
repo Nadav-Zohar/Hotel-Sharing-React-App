@@ -13,8 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import Joi from 'joi';
 import { GeneralContext } from '../App';
 
-const defaultTheme = createTheme();
-
 export const allTextFieldForAddCard= [
     {itemSm: 4, name: 'title', id: 'title', label: 'main title', autoFocus: true, fullWidth: true, type: "text", },
     {itemSm: 4, name: 'subtitle', id: 'subtitle', label: 'sub title', autoFocus: false, fullWidth: true, type: "text", },

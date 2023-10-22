@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Container, Grid, IconButton, Typography, colors } from "@mui/material";
+import { Avatar, Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Container, Grid, IconButton, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useContext, useEffect, useState } from "react";
 import { GeneralContext } from "../App";
@@ -23,7 +23,7 @@ export default function FavCards() {
             setFavCards(data);
             setLoader(false);
         });
-    }, [updateFavCards]) 
+    }, [setLoader, updateFavCards]) 
     const handleFavorite= (item) => {
         setLoader(true);
         fetch(`https://api.shipap.co.il/cards/${item.id}/unfavorite?token=717fd20e-6283-11ee-aae9-14dda9d4a5f0`, {
